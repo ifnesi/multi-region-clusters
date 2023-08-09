@@ -7,6 +7,8 @@
 
 ## Start the demo
 - Start the services: `docker-compose up -d`
+- 2.5 Multi-Region-Cluster:
+![image](imgs/img-001.png)
 - Wait around 60 seconds or so and check that services are running: `docker-compose ps`
 - Check everything is healthy by pointing a browser at http://localhost:9021
 - Create topics: `./scripts/create-topics.sh`
@@ -27,6 +29,8 @@ Topic: t1       TopicId: 2t8WVau3RXSGa8kcMWdsdQ PartitionCount: 1       Replicat
 Topic: t1-obs   TopicId: svyo9HgsSwieLrT5kLeLpQ PartitionCount: 1       ReplicationFactor: 6    Configs: min.insync.replicas=3,confluent.placement.constraints={"observerPromotionPolicy":"under-min-isr","version":2,"replicas":[{"count":2,"constraints":{"rack":"west-f"}},{"count":2,"constraints":{"rack":"east-f"}}],"observers":[{"count":1,"constraints":{"rack":"west-o"}},{"count":1,"constraints":{"rack":"east-o"}}]}
         Topic: t1-obs   Partition: 0    Leader: 11      Replicas: 11,12,22,21,13,23     Isr: 21,22,12,11        Offline:        Observers: 13,23
 ```
+![image](imgs/img-002.png)
+
 - Run producers and consumers (do each of these in a different terminal):
   - Terminal 1: `./scripts/producer-t1.sh`
   - Terminal 2: `./scripts/consumer-t1.sh`
@@ -51,6 +55,8 @@ Topic: t1       TopicId: 2t8WVau3RXSGa8kcMWdsdQ PartitionCount: 1       Replicat
 Topic: t1-obs   TopicId: svyo9HgsSwieLrT5kLeLpQ PartitionCount: 1       ReplicationFactor: 6    Configs: min.insync.replicas=3,confluent.placement.constraints={"observerPromotionPolicy":"under-min-isr","version":2,"replicas":[{"count":2,"constraints":{"rack":"west-f"}},{"count":2,"constraints":{"rack":"east-f"}}],"observers":[{"count":1,"constraints":{"rack":"west-o"}},{"count":1,"constraints":{"rack":"east-o"}}]}
         Topic: t1-obs   Partition: 0    Leader: 22      Replicas: 11,12,22,21,13,23     Isr: 21,22,23   Offline: 13,12,11       Observers: 13,23
 ```
+![image](imgs/img-003.png)
+
   - Notice how:
     - both topics have gone through leader election
     - t1 has 2 in-sync-replicas, and this is below the minimum of 3
@@ -61,6 +67,7 @@ Topic: t1-obs   TopicId: svyo9HgsSwieLrT5kLeLpQ PartitionCount: 1       Replicat
 <br><br>
 - Simulate Zookeeper failures:
   - Stop one zookeeper: `docker-compose stop zookeeper-west`
+![image](imgs/img-004.png)
   - Check zookeeper status: `./scripts/zookeeper-status.sh`
 ```
 ==> Zookeeper  2181
@@ -76,6 +83,7 @@ Mode: leader
 ```
   - Running the command `./scripts/describe-topics.sh` will produce an output as at least two zookeepers are running
   - Stop another zookeeper: `docker-compose stop zookeeper-central`
+![image](imgs/img-005.png)
   - Check zookeeper status: `./scripts/zookeeper-status.sh`
 ```
 ==> Zookeeper  2181
