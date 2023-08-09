@@ -11,6 +11,7 @@ services:
     environment:
       ZOOKEEPER_SERVER_ID: 1
       ZOOKEEPER_CLIENT_PORT: 2181
+      KAFKA_OPTS: "-Dzookeeper.4lw.commands.whitelist=*"
       ZOOKEEPER_SERVERS: zookeeper-west:2888:3888;zookeeper-central:2888:3888;zookeeper-east:2888:3888
     cap_add:
       - NET_ADMIN
@@ -24,6 +25,7 @@ services:
     environment:
       ZOOKEEPER_SERVER_ID: 2
       ZOOKEEPER_CLIENT_PORT: 2182
+      KAFKA_OPTS: "-Dzookeeper.4lw.commands.whitelist=*"
       ZOOKEEPER_SERVERS: zookeeper-west:2888:3888;zookeeper-central:2888:3888;zookeeper-east:2888:3888
     cap_add:
       - NET_ADMIN
@@ -37,6 +39,7 @@ services:
     environment:
       ZOOKEEPER_SERVER_ID: 3
       ZOOKEEPER_CLIENT_PORT: 2183
+      KAFKA_OPTS: "-Dzookeeper.4lw.commands.whitelist=*"
       ZOOKEEPER_SERVERS: zookeeper-west:2888:3888;zookeeper-central:2888:3888;zookeeper-east:2888:3888
     cap_add:
       - NET_ADMIN
