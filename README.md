@@ -1,11 +1,10 @@
 # Confluent Platform Multi Region Cluster Demo
 
-## Pre-requisites
-- docker
-- docker-compose
-- browser
+## Requirements:
+- [Docker Desktop + Compose](https://www.docker.com/products/docker-desktop)
+- Web browser
 
-## Start the demo
+## :white_check_mark: Start the demo
 - Start the services: `docker-compose up -d`
 - 2.5 Multi-Region-Cluster:
 ![image](imgs/img-001.png)
@@ -23,26 +22,66 @@ Created topic t1-obs.
 ```
 ==> Describing topic: t1
 Topic: t1       TopicId: 2t8WVau3RXSGa8kcMWdsdQ PartitionCount: 1       ReplicationFactor: 4
-Configs: min.insync.replicas=3
-confluent.placement.constraints={"version":1,"replicas":[{"count":2,"constraints":{"rack":"west-f"}},{"count":2,"constraints":{"rack":"east-f"}}],"observers":[]}
-        Topic: t1
-        Partition: 0
-        Leader: 11
-        Replicas: 11,12,21,22
-        Isr: 11,12,21,22 --> OK (min.insync.replicas=3)
-        Offline: 
+Configs: min.insync.replicas = 3
+confluent.placement.constraints =
+  {
+    "version": 1,
+    "replicas": [
+      {
+        "count": 2,
+        "constraints": {"rack":"west-f"}
+      },
+      {
+        "count": 2,
+        "constraints": {"rack":"east-f"}
+      }
+    ],
+    "observers": []
+  }
+  
+  Topic: t1
+  Partition: 0
+  Leader: 11
+  Replicas: 11,12,21,22
+  Isr: 11,12,21,22 --> OK (min.insync.replicas=3)
+  Offline: 
 
 ==> Describing topic: t1-obs
 Topic: t1-obs   TopicId: svyo9HgsSwieLrT5kLeLpQ PartitionCount: 1       ReplicationFactor: 6
-Configs: min.insync.replicas=3
-confluent.placement.constraints={"observerPromotionPolicy":"under-min-isr","version":2,"replicas":[{"count":2,"constraints":{"rack":"west-f"}},{"count":2,"constraints":{"rack":"east-f"}}],"observers":[{"count":1,"constraints":{"rack":"west-o"}},{"count":1,"constraints":{"rack":"east-o"}}]}
-        Topic: t1-obs
-        Partition: 0
-        Leader: 11
-        Replicas: 11,12,22,21,13,23
-        Isr: 21,22,12,11 --> OK (min.insync.replicas=3)
-        Offline:
-        Observers: 13,23
+Configs: min.insync.replicas = 3
+confluent.placement.constraints =
+  {
+    "version": 2,
+    "replicas": [
+      {
+        "count": 2,
+        "constraints": {"rack": "west-f"}
+      },
+      {
+        "count": 2,
+        "constraints": {"rack": "east-f"}
+      }
+    ],
+    "observers": [
+      {
+        "count": 1,
+        "constraints": {"rack": "west-o"}
+      },
+      {
+        "count": 1,
+        "constraints": {"rack": "east-o"}
+      }
+    ]
+    "observerPromotionPolicy": "under-min-isr",
+  }
+  
+  Topic: t1-obs
+  Partition: 0
+  Leader: 11
+  Replicas: 11,12,22,21,13,23
+  Isr: 21,22,12,11 --> OK (min.insync.replicas=3)
+  Offline:
+  Observers: 13,23
 ```
 ![image](imgs/img-002.png)
 
@@ -64,26 +103,65 @@ org.apache.kafka.common.errors.NotEnoughReplicasException: Messages are rejected
 ```
 ==> Describing topic: t1
 Topic: t1       TopicId: 2t8WVau3RXSGa8kcMWdsdQ PartitionCount: 1       ReplicationFactor: 4
-Configs: min.insync.replicas=3
-confluent.placement.constraints={"version":1,"replicas":[{"count":2,"constraints":{"rack":"west-f"}},{"count":2,"constraints":{"rack":"east-f"}}],"observers":[]}
-        Topic: t1
-        Partition: 0
-        Leader: 21
-        Replicas: 11,12,21,22
-        Isr: 21,22 --> NOT OK (min.insync.replicas=3)
-        Offline: 11,12
+confluent.placement.constraints =
+  {
+    "version": 1,
+    "replicas": [
+      {
+        "count": 2,
+        "constraints": {"rack":"west-f"}
+      },
+      {
+        "count": 2,
+        "constraints": {"rack":"east-f"}
+      }
+    ],
+    "observers": []
+  }
+
+  Topic: t1
+  Partition: 0
+  Leader: 21
+  Replicas: 11,12,21,22
+  Isr: 21,22 --> NOT OK (min.insync.replicas=3)
+  Offline: 11,12
 
 ==> Describing topic: t1-obs
 Topic: t1-obs   TopicId: svyo9HgsSwieLrT5kLeLpQ PartitionCount: 1       ReplicationFactor: 6
-Configs: min.insync.replicas=3
-confluent.placement.constraints={"observerPromotionPolicy":"under-min-isr","version":2,"replicas":[{"count":2,"constraints":{"rack":"west-f"}},{"count":2,"constraints":{"rack":"east-f"}}],"observers":[{"count":1,"constraints":{"rack":"west-o"}},{"count":1,"constraints":{"rack":"east-o"}}]}
-        Topic: t1-obs
-        Partition: 0
-        Leader: 22
-        Replicas: 11,12,22,21,13,23
-        Isr: 21,22,23 --> OK (min.insync.replicas=3), Broker 23 (Observer for that topic partition promoted)
-        Offline: 13,12,11
-        Observers: 13,23
+Configs: min.insync.replicas = 3
+confluent.placement.constraints =
+  {
+    "version": 2,
+    "replicas": [
+      {
+        "count": 2,
+        "constraints": {"rack": "west-f"}
+      },
+      {
+        "count": 2,
+        "constraints": {"rack": "east-f"}
+      }
+    ],
+    "observers": [
+      {
+        "count": 1,
+        "constraints": {"rack": "west-o"}
+      },
+      {
+        "count": 1,
+        "constraints": {"rack": "east-o"}
+      }
+    ]
+    "observerPromotionPolicy": "under-min-isr",
+  }
+
+  Topic: t1-obs
+  Partition: 0
+  Leader: 22
+  Replicas: 11,12,22,21,13,23
+  Isr: 21,22,23 --> OK (min.insync.replicas=3), #23 (Observer for that topic partition promoted)
+  Offline: 13,12,11
+  Observers: 13,23
 ```
 ![image](imgs/img-003.png)
 
@@ -150,5 +228,5 @@ Mode: leader
   - Note how the broker starts, the observer catches up and joins the ISR list
   - The producer can now carry on as before
 
-## Stop the demo
+## :x: Stop the demo
 - Stop the services: `docker-compose down`
