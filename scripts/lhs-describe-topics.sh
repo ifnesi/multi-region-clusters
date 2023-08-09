@@ -9,6 +9,6 @@ do
   echo
   echo -e "\n==> Describe topic: ${TOPICNAME}\n"
 
-  docker-compose exec broker-east-3 kafka-topics --describe --bootstrap-server broker-east-3:19093 --topic ${TOPICNAME}
+  docker-compose exec broker-east-3 kafka-topics --describe --bootstrap-server broker-east-3:19096 --topic ${TOPICNAME}
 
 done
