@@ -35,10 +35,10 @@ Topic: t1-stretched-with-observers	TopicId: qx9kT_KHR2a3OBitNxAJLQ	PartitionCoun
 ```
 
 ### 4. Run producers and consumers (do each of these in a different terminal)
-Terminal 1: `./scripts/lhs-run-producer-t1-stretched.sh`
-Terminal 2: `./scripts/lhs-run-consumer-t1-stretched.sh`
-Terminal 3: `./scripts/lhs-run-producer-t1-stretched-with-observers.sh`
-Terminal 4: `./scripts/lhs-run-consumer-t1-stretched-with-observers.sh`
+- Terminal 1: `./scripts/lhs-run-producer-t1-stretched.sh`
+- Terminal 2: `./scripts/lhs-run-consumer-t1-stretched.sh`
+- Terminal 3: `./scripts/lhs-run-producer-t1-stretched-with-observers.sh`
+- Terminal 4: `./scripts/lhs-run-consumer-t1-stretched-with-observers.sh`
 
 ### 5. Simulate failure of a Data Center
 Stop the brokers
