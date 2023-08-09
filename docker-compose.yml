@@ -133,7 +133,7 @@ services:
       KAFKA_METRIC_REPORTERS: io.confluent.metrics.reporter.ConfluentMetricsReporter
       KAFKA_CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS: broker-ccc:19098
       KAFKA_CONFLUENT_MONITORING_INTERCEPTER_BOOTSTRAP_SERVERS: broker-ccc:19098
-      KAFKA_JMX_PORT: 8092
+      KAFKA_JMX_PORT: 8095
       #      KAFKA_CONFLUENT_LOG_PLACEMENT_CONSTRAINTS: '{"version": 1,"replicas": [{"count": 2, "constraints": {"rack": "west"}}], "observers": [{"count": 2, "constraints": {"rack": "east"}}]}'
       #      KAFKA_CONFLUENT_OFFSETS_TOPIC_PLACEMENT_CONSTRAINTS: '{"version": 1,"replicas": [{"count": 1, "constraints": {"rack": "west-f"}},{"count": 1, "constraints": {"rack": "east-f"}}]}'
       KAFKA_OFFSETS_TOPIC_NUM_PARTITIONS: 4
@@ -243,7 +243,7 @@ services:
       KAFKA_METRIC_REPORTERS: io.confluent.metrics.reporter.ConfluentMetricsReporter
       KAFKA_CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS: broker-ccc:19098
       KAFKA_CONFLUENT_MONITORING_INTERCEPTER_BOOTSTRAP_SERVERS: broker-ccc:19098
-      KAFKA_JMX_PORT: 8092
+      KAFKA_JMX_PORT: 8096
       #      KAFKA_CONFLUENT_LOG_PLACEMENT_CONSTRAINTS: '{"version": 1,"replicas": [{"count": 2, "constraints": {"rack": "west"}}], "observers": [{"count": 2, "constraints": {"rack": "east"}}]}'
       #      KAFKA_CONFLUENT_OFFSETS_TOPIC_PLACEMENT_CONSTRAINTS: '{"version": 1,"replicas": [{"count": 1, "constraints": {"rack": "west-f"}},{"count": 1, "constraints": {"rack": "east-f"}}]}'
       KAFKA_OFFSETS_TOPIC_NUM_PARTITIONS: 4
