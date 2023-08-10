@@ -3,11 +3,11 @@ version: '3.5'
 services:
 
   zookeeper-west:
-    image: confluentinc/cp-zookeeper:7.4.1
+    image: confluentinc/cp-zookeeper:$CP_VERSION
     hostname: zookeeper-west
     container_name: zookeeper-west
     ports:
-      - "2181:2181"
+      - 2181:2181
     environment:
       ZOOKEEPER_SERVER_ID: 1
       ZOOKEEPER_CLIENT_PORT: 2181
@@ -17,11 +17,11 @@ services:
       - NET_ADMIN
 
   zookeeper-central:
-    image: confluentinc/cp-zookeeper:7.4.1
+    image: confluentinc/cp-zookeeper:$CP_VERSION
     hostname: zookeeper-central
     container_name: zookeeper-central
     ports:
-      - "2182:2182"
+      - 2182:2182
     environment:
       ZOOKEEPER_SERVER_ID: 2
       ZOOKEEPER_CLIENT_PORT: 2182
@@ -31,11 +31,11 @@ services:
       - NET_ADMIN
 
   zookeeper-east:
-    image: confluentinc/cp-zookeeper:7.4.1
+    image: confluentinc/cp-zookeeper:$CP_VERSION
     hostname: zookeeper-east
     container_name: zookeeper-east
     ports:
-      - "2183:2183"
+      - 2183:2183
     environment:
       ZOOKEEPER_SERVER_ID: 3
       ZOOKEEPER_CLIENT_PORT: 2183
@@ -45,12 +45,12 @@ services:
       - NET_ADMIN
 
   broker-west-1:
-    image: confluentinc/cp-server:7.4.1
+    image: confluentinc/cp-server:$CP_VERSION
     hostname: broker-west-1
     container_name: broker-west-1
     ports:
-      - "9091:9091"
-      - "8091:8091"
+      - 9091:9091
+      - 8091:8091
     volumes:
       - ./config:/etc/kafka/demo
     environment:
@@ -82,12 +82,12 @@ services:
       - NET_ADMIN
 
   broker-west-2:
-    image: confluentinc/cp-server:7.4.1
+    image: confluentinc/cp-server:$CP_VERSION
     hostname: broker-west-2
     container_name: broker-west-2
     ports:
-      - "9092:9092"
-      - "8092:8092"
+      - 9092:9092
+      - 8092:8092
     environment:
       KAFKA_BROKER_ID: 12
       KAFKA_BROKER_RACK: 'west-f'
@@ -118,12 +118,12 @@ services:
       - NET_ADMIN
 
   broker-west-3:
-    image: confluentinc/cp-server:7.4.1
+    image: confluentinc/cp-server:$CP_VERSION
     hostname: broker-west-3
     container_name: broker-west-3
     ports:
-      - "9095:9095"
-      - "8095:8095"
+      - 9095:9095
+      - 8095:8095
     environment:
       KAFKA_BROKER_ID: 13
       KAFKA_BROKER_RACK: 'west-o'
@@ -154,12 +154,12 @@ services:
       - NET_ADMIN
 
   broker-east-1:
-    image: confluentinc/cp-server:7.4.1
+    image: confluentinc/cp-server:$CP_VERSION
     hostname: broker-east-1
     container_name: broker-east-1
     ports:
-      - "9093:9093"
-      - "8093:8093"
+      - 9093:9093
+      - 8093:8093
     volumes:
       - ./config:/etc/kafka/demo
     environment:
@@ -192,12 +192,12 @@ services:
       - NET_ADMIN
 
   broker-east-2:
-    image: confluentinc/cp-server:7.4.1
+    image: confluentinc/cp-server:$CP_VERSION
     hostname: broker-east-2
     container_name: broker-east-2
     ports:
-      - "9094:9094"
-      - "8094:8094"
+      - 9094:9094
+      - 8094:8094
     environment:
       KAFKA_BROKER_ID: 22
       KAFKA_BROKER_RACK: 'east-f'
@@ -228,12 +228,12 @@ services:
       - NET_ADMIN
 
   broker-east-3:
-    image: confluentinc/cp-server:7.4.1
+    image: confluentinc/cp-server:$CP_VERSION
     hostname: broker-east-3
     container_name: broker-east-3
     ports:
-      - "9096:9096"
-      - "8096:8096"
+      - 9096:9096
+      - 8096:8096
     environment:
       KAFKA_BROKER_ID: 23
       KAFKA_BROKER_RACK: 'east-o'
@@ -264,12 +264,12 @@ services:
       - NET_ADMIN
 
   broker-ccc:
-    image: confluentinc/cp-server:7.4.1
+    image: confluentinc/cp-server:$CP_VERSION
     hostname: broker-ccc
     container_name: broker-ccc
     ports:
-      - "9098:9098"
-      - "8098:8098"
+      - 9098:9098
+      - 8098:8098
     volumes:
       - ./config:/etc/kafka/demo
     environment:
@@ -292,13 +292,20 @@ services:
       - zookeeper-east
 
   control-center:
-    image: confluentinc/cp-enterprise-control-center:7.4.1
+    image: confluentinc/cp-enterprise-control-center:$CP_VERSION
     hostname: control-center
     container_name: control-center
     depends_on:
       - broker-ccc
+      - schema-registry
+      - broker-west-1
+      - broker-west-2
+      - broker-west-3
+      - broker-east-1
+      - broker-east-2
+      - broker-east-3
     ports:
-      - "9021:9021"
+      - 9021:9021
     environment:
       CONTROL_CENTER_BOOTSTRAP_SERVERS: broker-ccc:19098
       CONTROL_CENTER_REPLICATION_FACTOR: 1
@@ -307,4 +314,37 @@ services:
       CONTROL_CENTER_KAFKA_MRC_BOOTSTRAP_SERVERS: broker-west-1:19091,broker-west-2:19092,broker-west-3:19095,broker-east-1:19093,broker-east-2:19094,broker-east-3:19096
       CONTROL_CENTER_KAFKA_METRICS_BOOTSTRAP_SERVERS: broker-ccc:19098
       CONFLUENT_METRICS_TOPIC_REPLICATION: 1
+      CONTROL_CENTER_SCHEMA_REGISTRY_URL: http://schema-registry:8081
       PORT: 9021
+
+  schema-registry:
+    image: confluentinc/cp-schema-registry:$CP_VERSION
+    hostname: schema-registry
+    container_name: schema-registry
+    depends_on:
+      - broker-west-1
+      - broker-west-2
+      - broker-west-3
+      - broker-east-1
+      - broker-east-2
+      - broker-east-3
+    ports:
+      - 8081:8081
+    environment:
+      SCHEMA_REGISTRY_HOST_NAME: schema-registry
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: broker-west-1:19091,broker-west-2:19092,broker-west-3:19095,broker-east-1:19093,broker-east-2:19094,broker-east-3:19096
+      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
+
+  rest-proxy:
+    image: confluentinc/cp-kafka-rest:$CP_VERSION
+    depends_on:
+      - schema-registry
+    ports:
+      - 8082:8082
+    hostname: rest-proxy
+    container_name: rest-proxy
+    environment:
+      KAFKA_REST_HOST_NAME: rest-proxy
+      KAFKA_REST_BOOTSTRAP_SERVERS: broker-west-1:19091,broker-west-2:19092,broker-west-3:19095,broker-east-1:19093,broker-east-2:19094,broker-east-3:19096
+      KAFKA_REST_LISTENERS: http://0.0.0.0:8082
+      KAFKA_REST_SCHEMA_REGISTRY_URL: http://schema-registry:8081
