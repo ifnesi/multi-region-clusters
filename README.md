@@ -309,3 +309,8 @@ Stopping up docker compose...
  ✔ Container zookeeper-central            Removed
  ✔ Network multi-region-clusters_default  Removed
 ```
+
+# External References
+Check out [Confluent's Developer portal](https://developer.confluent.io), it has free courses, documents, articles, blogs, podcasts and so many more content to get you up and running with a fully managed Apache Kafka service.
+
+Disclaimer: I work for Confluent :wink:
